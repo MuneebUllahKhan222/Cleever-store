@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+require('dotenv').config()
 
-const stripe = require("stripe")("sk_test_51Lj1VASGZP3p3zAF1bWp5RFnID7qsSAN5UG2gVvYvvxNJc8E4WUnycQlszjMCnv3JegKYNWTLJ6aZ8rJX2lYfX3d00JIv0Ji9W");
-
+const stripe = require("stripe")(process.env.STRIPE_KEY)
 ///APP CONFIG
 const app = express();
 
@@ -24,6 +24,7 @@ app.post('/payment/create', async (req, res) => {
         amount: total,
         currency:'inr',
     });
+    console.log(paymentIntent)
     res.status(201).send({
         clientSecret: paymentIntent.client_secret,
     })
